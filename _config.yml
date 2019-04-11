@@ -9,7 +9,7 @@ baseurl: '/blog'
 
 # Navigation links
 nav:
-  home: '/'
+  home: '/bolg'
   tags: '/tags.html'
 
 # Footer
