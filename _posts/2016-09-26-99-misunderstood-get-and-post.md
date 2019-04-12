@@ -2,6 +2,7 @@
 layout: post
 title:  "99%的人都理解错了HTTP中GET与POST的区别!"
 date:   2016-09-26 
+author: 转载
 categories: develop base
 tags: http
 ---
