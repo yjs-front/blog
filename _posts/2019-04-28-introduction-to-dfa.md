@@ -12,7 +12,8 @@ tags: dfa
 在实现文字过滤的算法中，DFA是唯一比较好的实现算法。
 DFA即`Deterministic Finite Automaton`，也就是确定有穷自动机，它是通过`event`和当前的`state`得到下一个`state`，即`event+state=nextState`。
 下图展示了其状态的转换
-![dfa](/blog/assets/img/dfa/dfa.png) 
+
+![dfa](/blog/assets/img/post/dfa/dfa.png) 
 
 
 在这幅图中大写字母（S、U、V、Q）都是状态，小写字母a、b为动作。通过上图我们可以看到如下关系:
@@ -26,7 +27,8 @@ S+a=>U;S+b=>V;U+b=V
 1. 构建敏感词状态机并放入——hash表
 
 在敏感词匹配之前，我们需要先创建一个DFA算法模型，后续的匹配算法基于此模型进行计算。这里我们采用Map作为其数据结构。
-Map相对于传统的`Object`对象有如下几个有点（[mozilla](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map#Objects_%E5%92%8C_maps_%E7%9A%84%E6%AF%94%E8%BE%83)）
+Map相对于传统的`Object`对象有如下几个优点（[mozilla开发文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map#Objects_%E5%92%8C_maps_%E7%9A%84%E6%AF%94%E8%BE%83)）
+
 >* 一个Object的键只能是`字符串`或者 `Symbols`，但一个 Map 的键可以是**任意值**，包括函数、对象、基本类型。    
 >* Map 中的键值是**有序的**，而添加到对象中的键则不是。因此，当对它进行遍历时，Map 对象是按插入的顺序返回键值。    
 >* 你可以通过**size 属性**直接获取一个 Map 的键值对个数，而 Object 的键值对个数只能手动计算。
@@ -42,7 +44,8 @@ Map相对于传统的`Object`对象有如下几个有点（[mozilla](https://dev
     }
 ```
 举例敏感词有着这么几个 ['日本鬼子','日本人','日本男人']，那么数据结构如下（图片引用参考文章）
-![ISensitiveMap](/blog/assets/img/dfa/ISensitiveMap.png]
+
+![ISensitiveMap](/blog/assets/img/post/dfa/ISensitiveMap.png]
 
 从图我们可以得到如下的数据结构：
 ``` JSON
@@ -77,7 +80,7 @@ Map相对于传统的`Object`对象有如下几个有点（[mozilla](https://dev
 3. 判断该字是否为该词中的最后一个字。若是表示敏感词结束，设置标志位laster = true，否则设置标志位laster = false。
 
 具体代码实现（Typescript）：
-``` typescript
+``` javaScript
     class DFA{
         sensitiveMap:Map,
         /**
@@ -136,7 +139,7 @@ Map相对于传统的`Object`对象有如下几个有点（[mozilla](https://dev
 3. 获取map中的laster，通过laster是否等于true来判断该词是否为最后一个。如果isEnd == true表示该词为敏感词，否则跳至1，依次匹配“国”、“人”。。。
 
 通过这个步骤我们可以判断“中国人民”为敏感词，但是如果我们输入“中国女人”则不是敏感词了。
-``` typescript
+``` javaScript
     class DFA{
         ...
         /**
