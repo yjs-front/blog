@@ -13,7 +13,7 @@ tags: dfa
 DFA即`Deterministic Finite Automaton`，也就是确定有穷自动机，它是通过`event`和当前的`state`得到下一个`state`，即`event+state=nextState`。
 下图展示了其状态的转换
 
-![dfa](/blog/assets/img/post/dfa/dfa.png) 
+![dfa](/blog/assets/img/post/dfa/dfa.jpg) 
 
 
 在这幅图中大写字母（S、U、V、Q）都是状态，小写字母a、b为动作。通过上图我们可以看到如下关系:
@@ -45,7 +45,7 @@ Map相对于传统的`Object`对象有如下几个优点（[mozilla开发文档]
 ```
 举例敏感词有着这么几个 ['日本鬼子','日本人','日本男人']，那么数据结构如下（图片引用参考文章）
 
-![ISensitiveMap](/blog/assets/img/post/dfa/ISensitiveMap.png]
+![ISensitiveMap](/blog/assets/img/post/dfa/ISensitiveMap.png)
 
 从图我们可以得到如下的数据结构：
 ``` JSON
