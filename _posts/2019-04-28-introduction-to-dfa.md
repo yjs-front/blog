@@ -49,30 +49,30 @@ Map相对于传统的`Object`对象有如下几个优点（[mozilla开发文档]
 
 从图我们可以得到如下的数据结构：
 ``` JSON
-    {
+{
+    "laster":false,
+    "日":{
         "laster":false,
-        "日":{
+        "本":{
             "laster":false,
-            "本":{
+            "鬼":{
                 "laster":false,
-                "鬼":{
-                    "laster":false,
-                    "子":{
-                        "laster":true
-                    }
-                },
+                "子":{
+                    "laster":true
+                }
+            },
+            "人":{
+                "laster":true
+            },
+            "男":{
+                "laster":false,
                 "人":{
                     "laster":true
-                },
-                "男":{
-                    "laster":false,
-                    "人":{
-                        "laster":true
-                    }
-                },
-            }
+                }
+            },
         }
     }
+}
 ```
 具体过程如下：
 1. 在Map中查询“日”看其是否在Map中存在，如果不存在，则证明已“日”开头的敏感词还不存在，则我们直接构建这样的一棵树。跳至3；
@@ -81,55 +81,55 @@ Map相对于传统的`Object`对象有如下几个优点（[mozilla开发文档]
 
 具体代码实现（Typescript）：
 ``` javaScript
-    class DFA{
-        sensitiveMap:Map,
-        /**
-         * 构建敏感词库
-         *
-         * @param {Array<string>} sensitiveWordList
-         * @memberof DFA
-         */
-        public genSensitiveWordHashMap(sensitiveWordList: Array<string>): void {
-            if (this.sensitiveMap) {
-                console.log('rebuild map');
-            }
-            // 构造根节点
-            this.sensitiveMap = new Map();
-            for (const word of sensitiveWordList) {
-                this._insertWord(word);
-            }
-
+class DFA{
+    sensitiveMap:Map,
+    /**
+     * 构建敏感词库
+     *
+     * @param {Array<string>} sensitiveWordList
+     * @memberof DFA
+     */
+    public genSensitiveWordHashMap(sensitiveWordList: Array<string>): void {
+        if (this.sensitiveMap) {
+            console.log('rebuild map');
         }
-
-        /**
-         * 往敏感词库添加词汇
-         *
-         * @private
-         * @param {*} word
-         * @memberof DFA
-         */
-        private _insertWord(word) {
-            let nowMap: Map<string, any> = this.sensitiveMap;
-            // 依次获取字
-            for (let i = 0; i < word.length; i++) {
-                const char = word.charAt(i);
-                const wordMap: Map<string, any> = nowMap.get(char);
-
-                if (wordMap) { //如果存在该key，直接赋值  
-                    nowMap = wordMap;
-                } else { //不存在则构建一个map，同时将laster 设置为false，因为他不是最后一个  
-                    nowMap.set('laster', false);
-
-                    let newMap = new Map<string, any>();
-                    newMap.set('laster', true);
-
-                    nowMap.set(char, newMap);
-                    nowMap = nowMap.get(char);
-                }
-            }
+        // 构造根节点
+        this.sensitiveMap = new Map();
+        for (const word of sensitiveWordList) {
+            this._insertWord(word);
         }
 
     }
+
+    /**
+     * 往敏感词库添加词汇
+     *
+     * @private
+     * @param {*} word
+     * @memberof DFA
+     */
+    private _insertWord(word) {
+        let nowMap: Map<string, any> = this.sensitiveMap;
+        // 依次获取字
+        for (let i = 0; i < word.length; i++) {
+            const char = word.charAt(i);
+            const wordMap: Map<string, any> = nowMap.get(char);
+
+            if (wordMap) { //如果存在该key，直接赋值  
+                nowMap = wordMap;
+            } else { //不存在则构建一个map，同时将laster 设置为false，因为他不是最后一个  
+                nowMap.set('laster', false);
+
+                let newMap = new Map<string, any>();
+                newMap.set('laster', true);
+
+                nowMap.set(char, newMap);
+                nowMap = nowMap.get(char);
+            }
+        }
+    }
+
+}
 ```
 
 2. 匹配敏感词
@@ -140,54 +140,54 @@ Map相对于传统的`Object`对象有如下几个优点（[mozilla开发文档]
 
 通过这个步骤我们可以判断“中国人民”为敏感词，但是如果我们输入“中国女人”则不是敏感词了。
 ``` javaScript
-    class DFA{
-        ...
-        /**
-         * 配置词库
-         *
-         * @param {*} word 要匹配的文本
-         * @returns {{ match: boolean, word?: string, everMatch?: boolean }} {{ match: 是否匹配, word?: 匹配敏感词, everMatch?: 是否匹配到一半的敏感词 }}
-         * @memberof DFA
-         */
-        public matchSensitive(word): { match: boolean, word?: string, everMatch?: boolean } {
-            let result = false;
+class DFA{
+    ...
+    /**
+     * 配置词库
+     *
+     * @param {*} word 要匹配的文本
+     * @returns {{ match: boolean, word?: string, everMatch?: boolean }} {{ match: 是否匹配, word?: 匹配敏感词, everMatch?: 是否匹配到一半的敏感词 }}
+     * @memberof DFA
+     */
+    public matchSensitive(word): { match: boolean, word?: string, everMatch?: boolean } {
+        let result = false;
 
-            if (!this.sensitiveMap) {
-                return { match: result };
-            }
-            // 过滤单词
-            let nowMap = this.sensitiveMap;
-            let matchWord = '';
-            let everMatch = false;
-
-            for (let i = 0; i < word.length; i++) {
-                const char = word.charAt(i);
-                const wordMap: Map<string, any> = nowMap.get(char);
-                if (wordMap) {
-                    everMatch = true;
-                    if (wordMap.get('laster') === true) {
-                        matchWord += char;
-                        result = true;
-                        break;
-                    }
-                    nowMap = wordMap;
-                    matchWord += char;
-                } else {
-                    result = false;
-                }
-            }
-
-            return {
-                match: result,
-                word: result ? matchWord : '',
-                everMatch: !result ? everMatch : false
-            };
-
+        if (!this.sensitiveMap) {
+            return { match: result };
         }
+        // 过滤单词
+        let nowMap = this.sensitiveMap;
+        let matchWord = '';
+        let everMatch = false;
+
+        for (let i = 0; i < word.length; i++) {
+            const char = word.charAt(i);
+            const wordMap: Map<string, any> = nowMap.get(char);
+            if (wordMap) {
+                everMatch = true;
+                if (wordMap.get('laster') === true) {
+                    matchWord += char;
+                    result = true;
+                    break;
+                }
+                nowMap = wordMap;
+                matchWord += char;
+            } else {
+                result = false;
+            }
+        }
+
+        return {
+            match: result,
+            word: result ? matchWord : '',
+            everMatch: !result ? everMatch : false
+        };
+
     }
+}
 ```
 调用
-```typescript
+```javascript
 function matchSensitive(map: DFA, word: string) {
     let match = false;
     const result = map.matchSensitive(word);
