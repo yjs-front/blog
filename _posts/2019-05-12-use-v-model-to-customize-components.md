@@ -58,7 +58,7 @@ Vue.js 是 [`MVVM`](https://www.jianshu.com/p/ea9d556d6529) 类型的框架，�
 通过实现上述2点，就可以实现 View 和 Model 之间的数据双向绑定。<br/>
     详见 [关于Vue的MVVM](https://www.jianshu.com/p/ea9d556d6529)
 
-    ![双向数据绑定](/blob/assets/img/v-model/vue-mvvm.png)
+    ![双向数据绑定](/blog/assets/img/v-model/vue-mvvm.png)
 
 
 2. 数据劫持：<br/>
@@ -72,7 +72,7 @@ Vue.js 是 [`MVVM`](https://www.jianshu.com/p/ea9d556d6529) 类型的框架，�
 （3）实现一个 Watcher，作为连接 Observer 和 Compile 的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数，从而更新视图。<br/>
     详见 [剖析Vue实现双向数据绑定原理](https://blog.csdn.net/longzhoufeng/article/details/80987527)
 
-    ![发布者-订阅者模式](/blob/assets/img/v-model/Observer-Compile.png)
+    ![发布者-订阅者模式](/blog/assets/img/v-model/Observer-Compile.png)
 
 
 ## 在自定义组件上使用 v-model
