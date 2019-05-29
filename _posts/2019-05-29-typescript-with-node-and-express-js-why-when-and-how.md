@@ -22,9 +22,12 @@ tags: Typescript
 ![ts]({{site.baseurl}}/assets/img/post/whyts/ts.png) 
 ## TypeScript
 
-如果你还不了解Typescript，建议先看下介绍
+如果你还不了解Typescript，建议先看下介绍:
+
 [https://www.tutorialspoint.com/typescript/typescript_overview.htm](https://www.tutorialspoint.com/typescript/typescript_overview.htm)
-和官方的5分钟上手TypeScript教程
+
+和官方的5分钟上手TypeScript教程:
+
 [https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 
 可以简单地把Typescript理解为一个拥有强类型特性的ECMAScript 6版本。
@@ -71,6 +74,7 @@ npm install typescript -s
 ```
 
 **关于Typescript包**
+
 Node.js是一个运行Javascript的引擎。Typescript包帮我们把 `.ts`文件转换为 `.js`脚本。Babel 7也可用于转换Typescript，但目前大多使用官方的Microsoft软件包。
 
 
@@ -94,7 +98,7 @@ npm run tsc
 npm run tsc -- --init
 ```
 
-运行之后，会在项目目录中生成tsconfig.json文件。在此文件中，我们将取消注释`outDir`选项，表示将ts文件编译之后的js文件输出到`build`目录：
+运行之后，会在项目目录中生成tsconfig.json文件。在此文件中，我们取消注释`outDir`选项，表示将ts文件编译之后的js文件输出到`build`目录：
 
 ![tsconfig]({{site.baseurl}}/assets/img/post/whyts/tsconfig.png) 
 
@@ -112,7 +116,9 @@ npm install @types/express -s
 
 ### 编写Hello world
 
-为了程序尽量简单，我直接使用express.js教程的hello world示例进行演示：[https://expressjs.com/pt-br/starter/hello-world.html](https://expressjs.com/pt-br/starter/hello-world.html)
+为了程序尽量简单，我直接使用express.js教程的hello world示例进行演示：
+
+[https://expressjs.com/pt-br/starter/hello-world.html](https://expressjs.com/pt-br/starter/hello-world.html)
 
 ![hello]({{site.baseurl}}/assets/img/post/whyts/hello.png) 
 
