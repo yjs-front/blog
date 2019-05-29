@@ -22,7 +22,10 @@ tags: Typescript
 ![ts]({{site.baseurl}}/assets/img/post/whyts/ts.png) 
 ## TypeScript
 
-如果你还不了解Typescript，建议先看下介绍：[https://www.tutorialspoint.com/typescript/typescript_overview.htm](https://www.tutorialspoint.com/typescript/typescript_overview.htm)和官方的5分钟上手TypeScript教程[https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+如果你还不了解Typescript，建议先看下介绍
+[https://www.tutorialspoint.com/typescript/typescript_overview.htm](https://www.tutorialspoint.com/typescript/typescript_overview.htm)
+和官方的5分钟上手TypeScript教程
+[https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 
 可以简单地把Typescript理解为一个拥有强类型特性的ECMAScript 6版本。
 
@@ -38,13 +41,15 @@ tags: Typescript
 ![ex1]({{site.baseurl}}/assets/img/post/whyts/ex1.png) 
 
 在第6行：我们试图将字符串参数传递给只接受数字的函数。
+
 在第9行：我们试图将一个返回数字的函数的结果赋给字符串。
+
 如果没有Typescript，这两个错误就会被忽视，导致最终应用程序出现一些错误。
 
 ### 在IDE中更容易找到相关功能模块
 
 在复杂的项目中，我们有大量的类分布在多个文件中。当我们定义类型时，IDE能够将对象和函数关联到给它们源文件。
-使用`control +单击`组合键点击方法或类时，IDE将自动跳转到对应的文件并突出显示定义引用的行。
+使用`control +单击`组合键点击方法或类时，IDE将自动跳转到对应的文件并突出显示定义引用。
 ![type-search]({{site.baseurl}}/assets/img/post/whyts/type-search.png) 
 import的文件如果是一个类，那么对应的方法和属性IDE会帮我们自动补全，如下图。
 ![ex2]({{site.baseurl}}/assets/img/post/whyts/ex2.png) 
@@ -53,14 +58,15 @@ import的文件如果是一个类，那么对应的方法和属性IDE会帮我�
 ## 如何在Express项目中使用Typescript
 
 现在让我们一步一步地创建一个在Express.js项目中使用Typescript语言的环境。
-1. 初始化项目
+### 初始化项目
 
-```
+``` shell
 npm init
 ```
 
-2. 安装typescript包。
-```
+### 安装typescript包。
+
+``` shell
 npm install typescript -s
 ```
 
@@ -68,19 +74,23 @@ npm install typescript -s
 Node.js是一个运行Javascript的引擎。Typescript包帮我们把 `.ts`文件转换为 `.js`脚本。Babel 7也可用于转换Typescript，但目前大多使用官方的Microsoft软件包。
 
 
-3. 在`package.json`中新增tsc指令
-```
+### 在`package.json`中新增tsc指令
+
+``` shell
 "scripts": {
     "tsc": "tsc"
 },
 ```
+
 添加之后，可以在当前项目下直接运行如下命令调用typescript函数：
-```
+
+``` shell
 npm run tsc
 ```
 
-4. 生成并初始化`tsconfig.json`文件
-```
+### 生成并初始化`tsconfig.json`文件
+
+``` shell
 npm run tsc -- --init
 ```
 
@@ -88,17 +98,19 @@ npm run tsc -- --init
 
 ![tsconfig]({{site.baseurl}}/assets/img/post/whyts/tsconfig.png) 
 
-5. 安装Express.js
-```
+### 安装Express.js
+
+``` shell
 npm install express -s
 ```
 
 Express和Typescript包是独立的。Typescript并不知道Express的类型。因此还需要安装一个特定的npm包来让Typescript识别Express类型。
-```
+
+``` shell
 npm install @types/express -s
 ```
 
-6. 编写Hello world
+### 编写Hello world
 
 为了程序尽量简单，我直接使用express.js教程的hello world示例进行演示：[https://expressjs.com/pt-br/starter/hello-world.html](https://expressjs.com/pt-br/starter/hello-world.html)
 
@@ -121,17 +133,21 @@ app.listen(3000, function () {
 });
 ```
 
-7. 编译我们第一个Typescript项目：
-```
+### 编译我们第一个Typescript项目：
+
+``` shell
 npm run tsc
 ```
+
 如您所见，该命令运行之后自动创建了build文件夹和.js文件。
 ![build]({{site.baseurl}}/assets/img/post/whyts/build.png) 
 
-8. 运行Express
-```
+### 运行Express
+
+``` shell
 node build/app.js
 ```
+
 运行之后，我们在3000端口上运行了一个服务。
 
 ## 免编译直接运行TypeScript
@@ -142,13 +158,13 @@ node build/app.js
 
 ts-node已被包含在另一个包`ts-node-dev`中。安装后，运行ts-node-dev指令可以直接监听文件变化并重新启动服务。
 
-```
+``` shell
 npm install ts-node-dev -s
 ```
 
 修改packege.json我们将添加两个脚本：
 
-```
+``` shell
 "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
@@ -158,11 +174,14 @@ npm install ts-node-dev -s
 
 
 以开发模式启动服务:
-```
+
+``` shell
 npm run dev
 ```
+
 以生产模式启动服务：
-```
+
+``` shell
 npm run prod
 ```
 
