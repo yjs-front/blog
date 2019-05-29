@@ -13,7 +13,7 @@ tags: dfa
 DFA即`Deterministic Finite Automaton`，也就是确定有穷自动机，它是通过`event`和当前的`state`得到下一个`state`，即`event+state=nextState`。
 下图展示了其状态的转换
 
-![dfa]({{site.url}}/assets/img/post/dfa/dfa.jpg) 
+![dfa]({{site.baseurl}}/assets/img/post/dfa/dfa.jpg) 
 
 
 在这幅图中大写字母（S、U、V、Q）都是状态，小写字母a、b为动作。通过上图我们可以看到如下关系:
