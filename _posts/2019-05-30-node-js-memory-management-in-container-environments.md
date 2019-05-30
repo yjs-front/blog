@@ -1,6 +1,6 @@
---
+---
 layout: post
-title:  "Node.js在容器环境中的内存管理"
+title:  "容器环境下Node.js的内存管理"
 date:   2019-05-30 
 author: cairc
 categories: develop node.js docker
@@ -13,7 +13,7 @@ tags: docker node.js 翻译
 
 在docker容器中运行Node.js应用程序时，传统的内存参数调整并不总是按预期工作。本文我们将阐述内存参数调优在基于容器的Node.js应用程序中并不总是有效的原因，并提供了在容器环境中使用Node.js应用程序时可以遵循的建议和最佳实践。
 
-## 建议
+## 综述
 
 当Node.js应用程序运行在设置了内存限制的容器中时（使用docker `--memory`选项或业务流程系统的其他标志），请使用`--max-old-space-size`选项以确保Node知道其内存限制并且设置值小于容器限制。
 
@@ -36,13 +36,11 @@ tags: docker node.js 翻译
 
 要检查容器内的内存限制（以字节为单位），请使用以下命令：
 
-```
+``` shell
 cat /sys/fs/cgroup/memory/memory.limit_in_bytes
 ```
 
-因此，使用此值--max_old_space_size，让我们探索容器的行为。
-
-So, using this value for the --max_old_space_size, let’s explore the container’s behavior.
+接下来我们一起来看下设置了`--max_old_space_size`之后容器的各种表现。
 
 “旧生代”是V8内存托管堆的公共堆部分（即JavaScript对象所在的位置），并且该`--max-old-space-size`标志控制其最大大小。有关更多信息，请参阅[关于-max-old-space-size](https://nodejs.org/api/cli.html#cli_node_options_options)。
 
@@ -121,7 +119,7 @@ PS：
 * OOM-KILLER在heapTotal和heapUsed的值都高于容器限制之后，隔一段很长的时间才执行。
 * OOM-KILLER根本没有执行。
 
-## 容器环境中的Node.js行为：解释
+## 容器环境中的Node.js相关行为解释
 
 监控容器中运行应用程序的重要指标是驻留集大小（RSS-resident set size）。
 
